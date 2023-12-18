@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test API</title>
+</head>
+<body>
+  <h1>Test API</h1>
+
+  <h2>Créer un utilisateur</h2>
+  <form id="userForm">
+    <label for="nom">Nom:</label>
+    <input type="text" id="nom" name="nom" required><br>
+
+    <label for="prenom">Prénom:</label>
+    <input type="text" id="prenom" name="prenom" required><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br>
+
+    <button type="button" onclick="createUser()">Créer un utilisateur</button>
+  </form>
+
+  <h2>Récupérer tous les utilisateurs</h2>
+  <button onclick="getAllUsers()">Récupérer tous les utilisateurs</button>
+
+  <script>
+    
+    const apiUrl = 'http://localhost:3000';
+
+    function createUser() {
+      const nom = document.getElementById('nom').value;
+      const prenom = document.getElementById('prenom').value;
+      const email = document.getElementById('email').value;
+
+      fetch(`${apiUrl}/addutilisateur`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nom,
+          prenom,
+          email,
+        }),
+      })
+      .then(response => response.json())
+      .then(data => console.log('Utilisateur créé:', data))
+      .catch(error => console.error('Erreur lors de la création de l\'utilisateur:', error));
+    }
+
+    function getAllUsers() {
+      fetch(`${apiUrl}/utilisateurs`)
+      .then(response => response.json())
+      .then(data => console.log('Utilisateurs:', data))
+      .catch(error => console.error('Erreur lors de la récupération des utilisateurs:', error));
+    }
+
+</script>
+</body>
+</html>
+   
